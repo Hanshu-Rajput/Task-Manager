@@ -1,1 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Task Management System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <div>
+                <h1>Task Manager</h1>
+                <p>Organize your work and stay productive</p>
+            </div>
+
+            <div class="today">
+                <strong id="date"></strong>
+                <span id="day"></span>
+            </div>
+
+        </header>
+
+
+        <main>
+
+            <!-- ADD TASK -->
+
+            <section class="add-section">
+
+                <h2>ADD TASK</h2>
+
+                <form action="/upload" method="POST">
+
+                    <label>Enter Your Task</label>
+
+                    <input type="text" name="task" placeholder="Enter your task..." required>
+
+
+                    <div class="form-row">
+
+                        <div>
+
+                            <label>Priority</label>
+
+                            <select name="priority">
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option value="Medium" selected>
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div>
+
+                            <label>Due Date</label>
+
+                            <input type="date" name="due_date">
+
+                        </div>
+
+                    </div>
+
+
+                    <label>
+                        Assign To
+                        <span class="optional">
+                            (Optional)
+                        </span>
+                    </label>
+
+                
+                   
+                    <select name="assign">
+
+                        <option value="">Select</option>
+                        <option value="Self">Self</option>
+                        <option value="Team">Team</option>
+                        <option value="Unassigned">Unassigned</option>
+
+                    </select>
+                    
+
+                    <button type="submit" class="add-btn">
+
+                        ADD TO MY TASK
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- MY TASK -->
+
+            <section class="tasks-section">
+
+                <div class="tasks-heading">
+
+                    <div>
+
+                        <h2>MY TASK</h2>
+
+                        <p>Your current tasks</p>
+
+                    </div>
+
+                    <span class="count">
+                        {{ todo|length }} Tasks
+                    </span>
+
+                </div>
+
+
+                {% if todo %}
+
+                <div class="task-list">
+
+                    {% for i in todo %}
+
+                    <div class="task-card">
+
+                        <div class="task-top">
+
+                            <div class="task-name">
+
+                                <span class="check"></span>
+
+                                <h3>
+                                    {{ i["task"] }}
+                                </h3>
+
+                            </div>
+
+
+                            <div class="actions">
+
+                                <!-- EDIT -->
+
+                                <a href="/edit/{{ loop.index0 }}" class="edit-btn" title="Edit">
+
+                                    ✏️
+
+                                </a>
+
+
+                                <!-- DETAIL -->
+
+                                <a href="/detail/{{ loop.index0 }}" class="edit-btn" title="Details">
+
+                                    👁️
+
+                                </a>
+
+
+                                <!-- DELETE -->
+                                <a href="/delete/{{ loop.index0 }}" class="delete-btn">
+                                    🗑️
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="task-info">
+
+                            <span>
+                                <b>Priority:</b>
+                                {{ i["priority"] }}
+                            </span>
+
+                            <span>
+                                <b>Due Date:</b>
+                                {{ i["due_date"] }}
+                            </span>
+
+                            <span>
+                                <b>Assign To:</b>
+                                {{ i["assign"] }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <h3>No tasks yet</h3>
+
+                    <p>
+                        Add your first task to get started!
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </main>
+
+
+        <footer>
+
+            <span class="red-dot"></span>
+            Under 7 days
+
+            <span class="orange-dot"></span>
+            7–14 days
+
+            <span class="green-dot"></span>
+            15+ days
+
+        </footer>
+
+    </div>
+
+
+    <script>
+
+        const today = new Date();
+
+        document.getElementById("date").innerText =
+            today.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+
+        document.getElementById("day").innerText =
+            today.toLocaleDateString("en-IN", {
+                weekday: "long"
+            });
+
+    </script>
+
+</body>
+
+</html>
