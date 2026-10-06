@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Task</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div>
+
+            <h1>Task Manager</h1>
+
+            <p>Edit your task</p>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="add-section">
+
+            <h2>EDIT TASK</h2>
+
+
+            <!-- UPDATE FORM -->
+
+            <form action="/update/{{ edit_idx }}"
+                  method="POST">
+
+
+                <label>
+                    Enter Your Task
+                </label>
+
+                <input type="text"
+                       name="task"
+                       value="{{ edit_task['task'] }}"
+                       required>
+
+
+                <div class="form-row">
+
+                    <div>
+
+                        <label>
+                            Priority
+                        </label>
+
+                        <select name="priority">
+
+                            <option value="Low"
+                                {% if edit_task['priority'] == 'Low' %}
+                                selected
+                                {% endif %}>
+                                Low
+                            </option>
+
+                            <option value="Medium"
+                                {% if edit_task['priority'] == 'Medium' %}
+                                selected
+                                {% endif %}>
+                                Medium
+                            </option>
+
+                            <option value="High"
+                                {% if edit_task['priority'] == 'High' %}
+                                selected
+                                {% endif %}>
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Due Date
+                        </label>
+
+                        <input type="date"
+                               name="due_date"
+                               value="{{ edit_task['due_date'] }}">
+
+                    </div>
+
+                </div>
+
+
+                <label>
+                    Assign To
+
+                    <span class="optional">
+                        (Optional)
+                    </span>
+                </label>
+
+                <input type="text"
+                       name="assign"
+                       value="{{ edit_task['assign'] }}"
+                       placeholder="Enter name">
+
+
+                <button type="submit"
+                        class="save-btn">
+
+                    UPDATE TASK
+
+                </button>
+
+            </form>
+
+
+            <br>
+
+            <a href="/"
+               class="edit-btn">
+
+                ← Back
+
+            </a>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
